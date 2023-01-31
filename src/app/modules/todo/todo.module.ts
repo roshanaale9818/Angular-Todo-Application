@@ -9,6 +9,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,10 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
     MatInputModule,
     FormsModule,
     ReactiveFormsModule,
-    MatIconModule
+    MatIconModule,
+    FontAwesomeModule,
+    SharedModule,
+    ModalModule.forRoot() // modalmodule injected in root
   ]
 })
 export class TodoModule { }

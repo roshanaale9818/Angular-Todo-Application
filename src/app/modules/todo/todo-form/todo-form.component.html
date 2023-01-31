@@ -1,13 +1,14 @@
-<div class="header form-wrap">
+<div class="form-wrap">
+ <form [formGroup]="taskForm">
   <div class="container">
     <h1>Angular To do Application </h1>
-    <input type="text" placeholder="Task" id="taskInput" /><span
-      class="btn_save"
+    <input type="text" formControlName="name" placeholder="Enter Task" id="taskInput" /><span
+      class="btn_save" (click)="onSubmitHandler()"
       >Add</span
     >
   </div>
+ </form>
 </div>
+<app-todo-list [todo]="todo"></app-todo-list>
 
-<!-- <ul class="todo-list">
 
-</ul> -->
