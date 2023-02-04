@@ -25,13 +25,14 @@ onSubmitHandler(){
     return;} // return if input field is empty
   let _todo:Todo = {
     name:this.taskForm.get('name')?.value,
-    status:'open'
+    status:'open',
+    originText:this.taskForm.get('name')?.value
   }
   // for sending the data to child component
   this.todo=_todo;
   this.taskForm.reset(); // resetting the form
 }
-todo:Todo={};
+todo:Todo={name:"",originText:""};
 
 
 }

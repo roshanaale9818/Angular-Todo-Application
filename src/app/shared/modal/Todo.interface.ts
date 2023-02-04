@@ -1,5 +1,7 @@
 export interface Todo{
-  name?:string;
+  name:string;
   description?:string;
   status?:string;
+  isLoading?:boolean;
+  originText:string;
 }

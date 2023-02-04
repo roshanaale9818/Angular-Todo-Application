@@ -1,24 +1,36 @@
 import { Component, Input,SimpleChange } from '@angular/core';
 import { Todo } from 'src/app/shared/modal/Todo.interface';
-import { faCoffee,faCheck,faTrash } from '@fortawesome/free-solid-svg-icons';
+import {faCheck,faTrash } from '@fortawesome/free-solid-svg-icons';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
 import { ToastrService } from 'ngx-toastr';
+import { BsDropdownConfig } from 'ngx-bootstrap/dropdown';
+import { Language } from 'src/app/shared/modal/Language.interface';
+import { GoogleObj } from 'src/app/shared/modal/GoogleObj.interface';
+import { GoogletranslateService } from 'src/app/shared/services/googletranslate.service';
+import { delay } from 'rxjs';
+
 @Component({
   selector: 'app-todo-list',
   templateUrl: './todo-list.component.html',
-  styleUrls: ['./todo-list.component.css']
+  styleUrls: ['./todo-list.component.css'],
+  providers:[{ provide: BsDropdownConfig, useValue: { isAnimated: true, autoClose: true } }]
 })
 export class TodoListComponent {
   @Input() todosList:Todo[]=[];
-  @Input()todo:Todo={};
+  @Input()todo:Todo={
+    name: '',
+    originText:''
+  };
   //popup configs
   modalRef: BsModalRef = new BsModalRef();
   config = {
     backdrop: true,
     ignoreBackdropClick: true,
   };
-  constructor(private modelService: BsModalService, private toaster:ToastrService){
+  constructor(private modelService: BsModalService,
+              private toaster:ToastrService,
+              private google:GoogletranslateService){
 
   }
 
@@ -55,5 +67,48 @@ firstChange:boolean = false;
         this.toaster.success("Task deleted.")
       }
     });
+  }
+  //google languages and their codes
+  languages:Language[]=[
+    {
+      name:"Spanish",
+      code:'es'
+    },
+    {
+      name:"Punjabi",
+      code:'pa'
+    },
+    {
+      name:"Nepali",
+      code:'ne'
+    },
+    {
+      name:"Hindi",
+      code:'hi'
+    },
+    {
+      name:"Default",
+      code:'default'
+    }
+  ];
+  onTranslate(targetCode:string,item:Todo,targetName:string){
+    const googleObj: GoogleObj = {
+      q:item.originText,
+      target: targetCode
+    };
+    if(targetCode ==='default'){
+      item.name = item.originText;
+      return;
+    }
+    item.isLoading = true;
+    //delaying for showing spinner for a while using pipe method
+    this.google.translate(googleObj).pipe(delay(2000)).subscribe(
+      (res: any) => {
+        item.isLoading=false;
+        // console.log("RES",res);
+        item.name=res.data.translations[0].translatedText;
+        this.toaster.success(`Translated to ${targetName}` )
+      },
+    );
   }
 }

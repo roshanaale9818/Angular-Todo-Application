@@ -1,0 +1,21 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class="__navbar">
+  <div class="logo navbar-brand">
+    Angular Todo
+    </div>
+    <!-- <a class="navbar-brand" href="#">Navbar</a> -->
+      <div class="action_btn">
+        <button class="btn btn-primary">Login <fa-icon [icon]="_faSignIn"></fa-icon></button>
+        <button class="btn btn-danger ml-1">Logout <fa-icon [icon]="_faSignOut"></fa-icon></button>
+      </div>
+</div>
+</nav>
+
+<div class="login__info mt-3">
+<alert  [type]="'warning'" [dismissible]="true">
+  <strong> You are not logged in. Your tasks will not be saved. Please login for saving your task.</strong>
+</alert>
+<alert  [type]="'success'" [dismissible]="false">
+  <strong> You are  logged in as Roshan.</strong>
+</alert>
+</div>

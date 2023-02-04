@@ -12,7 +12,9 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ModalModule } from 'ngx-bootstrap/modal';
-
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'
+import { NavbarModule } from '../navbar/navbar.module';
 @NgModule({
   declarations: [
     TodoComponent,
@@ -28,7 +30,10 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     MatIconModule,
     FontAwesomeModule,
     SharedModule,
-    ModalModule.forRoot() // modalmodule injected in root
+    ModalModule.forRoot(), // modalmodule injected in root
+    BsDropdownModule.forRoot(),
+    MatProgressSpinnerModule,
+    NavbarModule
   ]
 })
 export class TodoModule { }

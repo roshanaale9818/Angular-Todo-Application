@@ -1,0 +1,14 @@
+.__navbar{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.ml-1{
+  margin-left: 10px;
+}
+.logo{
+  margin-left: 20px;
+}
+.mt-3{
+  margin-top: 30px;
+}

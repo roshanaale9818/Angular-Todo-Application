@@ -1,12 +1,29 @@
+
 <div class="list-wrap">
   <ul class="todo-list">
-    <li *ngFor="let item of todosList" [ngClass]="item.status=='close'? 'close':'open'">{{item.name}}
-      <div>
+    <li *ngFor="let item of todosList" class="items" [ngClass]="item.status=='close'? 'close':'open'">{{item.name}}
+      <!-- spinner if item isLoading  -->
+      <mat-spinner *ngIf="item.isLoading" [diameter]="29"></mat-spinner>
+
+
+      <!-- action button wrapper  -->
+      <div class="action-wrap">
       <button *ngIf="item.status !=='close'" type="button" class="btn btn-success" tooltip="Completed" (click)="onCompleteTask(item)"><fa-icon [icon]="_faCheck"></fa-icon></button>
       <button type="button" class="btn btn-danger ml-1" (click)="onDeleteTask(item)"><fa-icon [icon]="_faTrash"></fa-icon></button>
+      <div class="btn-group ml-1" dropdown>
+        <button id="button-basic" dropdownToggle type="button" class="btn btn-info dropdown-toggle"
+                aria-controls="dropdown-basic">
+        Translate <span class="caret"></span>
+        </button>
+        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
+            role="menu" aria-labelledby="button-basic">
+          <li role="menuitem"><a class="dropdown-item" *ngFor="let language of languages" (click)="onTranslate(language.code,item,language.name)">{{language.name}}</a></li>
+        </ul>
       </div>
+    </div>
     </li>
   </ul>
+  <!-- if no any todos task  -->
   <div *ngIf="(todosList.length == 0)">
     <div class="empty-container">
       <h1 class="text-center">No any tasks added.</h1>

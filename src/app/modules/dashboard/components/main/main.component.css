@@ -1,0 +1,10 @@
+tr{
+  cursor: pointer;
+}
+.__heading h1{
+  font-size: 24px;
+  font-weight: 600;
+}
+.__history,.__history:focus{
+  color: #fff;
+}
