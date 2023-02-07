@@ -8,8 +8,9 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ToastrModule } from 'ngx-toastr';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AlertModule } from 'ngx-bootstrap/alert';
+import { TokenInterceptor } from './config/interceptor/token.interceptor';
 @NgModule({
   declarations: [
     AppComponent
@@ -27,6 +28,8 @@ import { AlertModule } from 'ngx-bootstrap/alert';
     AlertModule.forRoot()
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+
   ],
   bootstrap: [AppComponent]
 })

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import {faS, faSignIn ,faSignOut} from '@fortawesome/free-solid-svg-icons';
 import { Observable, Subject } from 'rxjs';
 import { AuthService } from 'src/app/shared/services/auth/auth.service';
@@ -11,12 +12,28 @@ import { AuthService } from 'src/app/shared/services/auth/auth.service';
 export class NavbarComponent {
 _faSignIn=faSignIn;
 _faSignOut = faSignOut;
-constructor(private authService:AuthService){
-  this.user$ = this.authService.user$;
+loggedIn:boolean = false;
+constructor(private authService:AuthService,
+  private router:Router
+  ){
+  this.user = this.authService.user$;
+  // this.loggedIn = this.authService.loggedIn
+  console.log("this is user",this.user);
+  this.user.subscribe((data)=>{
+    console.log("called in navbar",data)
+    this.user$ = data;
+  })
 }
-user$:Observable<any>=new Observable();
+user;
+user$: any;
 logOut(){
 
+}
+onLogin(){
+    this.router.navigate(['/login'])
+}
+onLogout(){
+  this.authService.onLogOut();
 }
 
 }

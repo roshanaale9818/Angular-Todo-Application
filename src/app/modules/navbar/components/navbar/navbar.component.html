@@ -5,17 +5,22 @@
     </div>
     <!-- <a class="navbar-brand" href="#">Navbar</a> -->
       <div class="action_btn">
-        <button class="btn btn-primary">Login <fa-icon [icon]="_faSignIn"></fa-icon></button>
-        <button class="btn btn-danger ml-1">Logout <fa-icon [icon]="_faSignOut"></fa-icon></button>
+        <button class="btn btn-primary" (click)="onLogin()" *ngIf="user && !user$.id">Login <fa-icon [icon]="_faSignIn"></fa-icon></button>
+        <button class="btn btn-danger ml-1" *ngIf="user$ && user$.id" (click)="onLogout()">Logout <fa-icon [icon]="_faSignOut" ></fa-icon></button>
       </div>
 </div>
 </nav>
 
 <div class="login__info mt-3">
-<alert  [type]="'warning'" [dismissible]="true">
+<alert  [type]="'warning'" *ngIf="!user$.id" [dismissible]="true">
   <strong> You are not logged in. Your tasks will not be saved. Please login for saving your task.</strong>
 </alert>
-<alert  [type]="'success'" [dismissible]="false">
-  <strong> You are  logged in as Roshan.</strong>
+<alert  [type]="'success'" [dismissible]="false" *ngIf="user$&& user$.id">
+  <strong> You are  logged in as {{user$.username}} ({{user$.email}})
+
+  </strong>
+  <!-- <strong> Email {{user$.email}}
+
+  </strong> -->
 </alert>
 </div>

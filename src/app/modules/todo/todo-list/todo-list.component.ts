@@ -9,6 +9,8 @@ import { Language } from 'src/app/shared/modal/Language.interface';
 import { GoogleObj } from 'src/app/shared/modal/GoogleObj.interface';
 import { GoogletranslateService } from 'src/app/shared/services/googletranslate.service';
 import { delay } from 'rxjs';
+import { TodoService } from '../services/todo.service';
+import { AuthService } from 'src/app/shared/services/auth/auth.service';
 
 @Component({
   selector: 'app-todo-list',
@@ -20,7 +22,11 @@ export class TodoListComponent {
   @Input() todosList:Todo[]=[];
   @Input()todo:Todo={
     name: '',
-    originText:''
+    originText:'',
+    description:"",
+    isLoading:false,
+    userId:'',
+    status:"",
   };
   //popup configs
   modalRef: BsModalRef = new BsModalRef();
@@ -28,10 +34,26 @@ export class TodoListComponent {
     backdrop: true,
     ignoreBackdropClick: true,
   };
+  user;
+  user$:any;
   constructor(private modelService: BsModalService,
               private toaster:ToastrService,
-              private google:GoogletranslateService){
-
+              private google:GoogletranslateService,
+              private todoService:TodoService,
+              private authService:AuthService
+              ){
+                this.user = this.authService.user$;
+                this.user.subscribe((data)=>{
+                  // console.log("called in navbar",data)
+                  this.user$ = data;
+                  this.reset();
+                })
+  }
+  reset(){
+    this.todosList =[];
+  }
+  ngOnInit(){
+    this.getTasks();
   }
 
   _faCheck = faCheck;
@@ -39,9 +61,24 @@ export class TodoListComponent {
 firstChange:boolean = false;
   ngOnChanges(changes:SimpleChange){
     if(this.todo && this.todo.name){
-      this.todosList.push(this.todo);
-      this.toaster.success("Task added.")
+      // this.todosList.push(this.todo);
+      // this.toaster.success("Task added.")
+      this.onAddTask();
     }
+  }
+  onAddTask(){
+    this.todo.userId = String(this.user$.id);
+    this.todoService.addTask(this.todo).subscribe((res:any)=>{
+      this.toaster.success("added successfully");
+      this.getTasks();
+    });
+
+  }
+  getTasks(){
+    this.todoService.getTask({userId:String(this.user$.id)}).subscribe((res:any)=>{
+      console.log("Tasks list", res);
+      this.todosList = res.data;
+    })
   }
   onCompleteTask(todo:Todo){
     //changing status for now
