@@ -15,11 +15,13 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'
 import { NavbarModule } from '../navbar/navbar.module';
+import { LanguagePipe } from './pipes/language.pipe';
 @NgModule({
   declarations: [
     TodoComponent,
     TodoFormComponent,
-    TodoListComponent
+    TodoListComponent,
+    LanguagePipe
   ],
   imports: [
     CommonModule,
@@ -34,6 +36,7 @@ import { NavbarModule } from '../navbar/navbar.module';
     BsDropdownModule.forRoot(),
     MatProgressSpinnerModule,
     NavbarModule
-  ]
+  ],
+  exports:[LanguagePipe]
 })
 export class TodoModule { }

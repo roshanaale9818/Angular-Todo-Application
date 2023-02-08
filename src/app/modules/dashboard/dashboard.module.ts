@@ -4,7 +4,9 @@ import { CommonModule } from '@angular/common';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { MainComponent } from './components/main/main.component';
 import { NavbarModule } from '../navbar/navbar.module';
-
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { TodoModule } from '../todo/todo.module';
 
 @NgModule({
   declarations: [
@@ -13,7 +15,10 @@ import { NavbarModule } from '../navbar/navbar.module';
   imports: [
     CommonModule,
     DashboardRoutingModule,
-    NavbarModule
+    NavbarModule,
+    ModalModule.forRoot(),
+    TooltipModule.forRoot(),
+    TodoModule
   ]
 })
 export class DashboardModule { }

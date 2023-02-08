@@ -10,16 +10,18 @@
       <div class="action-wrap">
       <button *ngIf="item.status !=='close'" type="button" class="btn btn-success" tooltip="Completed" (click)="onCompleteTask(item)"><fa-icon [icon]="_faCheck"></fa-icon></button>
       <button type="button" class="btn btn-danger ml-1" (click)="onDeleteTask(item)"><fa-icon [icon]="_faTrash"></fa-icon></button>
-      <div class="btn-group ml-1" dropdown>
-        <button id="button-basic" dropdownToggle type="button" class="btn btn-info dropdown-toggle"
-                aria-controls="dropdown-basic">
-        Translate <span class="caret"></span>
-        </button>
-        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
-            role="menu" aria-labelledby="button-basic">
-          <li role="menuitem"><a class="dropdown-item" *ngFor="let language of languages" (click)="onTranslate(language.code,item,language.name)">{{language.name}}</a></li>
-        </ul>
-      </div>
+      <ng-container *ngIf="isLoggedIn">
+        <div class="btn-group ml-1" dropdown>
+          <button id="button-basic" dropdownToggle type="button" class="btn btn-info dropdown-toggle"
+                  aria-controls="dropdown-basic">
+          Translate <span class="caret"></span>
+          </button>
+          <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
+              role="menu" aria-labelledby="button-basic">
+            <li role="menuitem"><a class="dropdown-item" *ngFor="let language of languages" (click)="onTranslate(language.code,item,language.name)">{{language.name}}</a></li>
+          </ul>
+        </div>
+      </ng-container>
     </div>
     </li>
   </ul>

@@ -20,26 +20,59 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
+      <tr *ngFor="let item of users;let i =index">
+        <th scope="row">{{i+1}}</th>
+        <td>{{item.username}}</td>
+        <td>{{item.email}}</td>
         <td>
-          <button class="btn btn-info __history">History</button>
+          <button class="btn btn-info __history" (click)="onViewHistory(template,item)">History</button>
         </td>
       </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-      </tr>
-      <tr>
-        <th scope="row">3</th>
-        <td colspan="2">Larry the Bird</td>
-        <td>@twitter</td>
-      </tr>
+
     </tbody>
   </table>
 </div>
 </div>
+
+
+
+
+<!-- template for popup  modal -->
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Translation for {{selectedUser?selectedUser.username:''}}</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Translation Word</th>
+          <th scope="col">Translated To</th>
+          <th scope="col">Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of translationList;let i =index">
+          <th scope="row">{{i+1}}</th>
+          <td>{{item.translatedText}}</td>
+          <td>{{item.translatedTo |language}}</td>
+          <td>
+            {{item.createdAt | date:'medium'}}
+          </td>
+        </tr>
+
+        <tr *ngIf="translationList.length==0">
+          <td colspan="4">
+            No translation yet.
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+</ng-template>

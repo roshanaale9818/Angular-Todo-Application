@@ -19,4 +19,12 @@ apiUrl:string = envrionment.apiUrl;
   getTask(body:any){
     return this.http.post(`${this.apiUrl}/task/getTasks`,body);
   }
+  onUpdateTask(body:any){
+    return this.http.post(`${this.apiUrl}/task/updateTask`,body);
+
+  }
+  onDeleteTask(body:any){
+    return this.http.post(`${this.apiUrl}/task/deleteTask`,body);
+
+  }
 }

@@ -30,6 +30,8 @@ export class AuthGuard implements CanActivate {
   checkUserLogin(route: ActivatedRouteSnapshot, url: any): boolean {
     if (this.authService.isLoggedIn()) {
       const userRole = this.authService.getRole();
+      console.log("route",route['data'],userRole)
+      console.log(route.data['role'] && route.data['role'].indexOf(userRole))
       if (route.data['role'] && route.data['role'].indexOf(userRole) === -1) {
         this.router.navigate(['/todo']);
         this.toasterService.error("You are not authorized to access resource.");

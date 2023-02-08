@@ -20,20 +20,26 @@ export class AuthService {
     private router:Router
   ) {
     this.user$ = this.user.asObservable();
+    this.user$.subscribe((data)=>{
+      this._user=data;
+
+    })
+
   }
 
   public get currentUserData(): any {
     return this.user.value;
   }
+  _user:any;
 
-  isLoggedIn() {
-    const loggedIn = localStorage.getItem('STATE');
-    if (loggedIn == 'true')
-      // this.isLogin = true;
+  // _user is where our all user properties are
+  public isLoggedIn() {
+    if (this._user && this._user) {
       return true;
-    else
-      // this.isLogin = false;
-    return false;
+    }
+    else {
+      return false;
+    }
   }
 
   get loggedIn():boolean{
@@ -47,8 +53,9 @@ export class AuthService {
 
   getRole() {
     // this.roleAs = localStorage.getItem('ROLE');
-    const role ="ROLE_ADMIN"
-    return role;
+    const role = JSON.parse(localStorage.getItem('user')||'null')
+    // console.log("ROLE",role)
+    return role?role.roles[0]:'ROLE_USER';
   }
 
   //login
@@ -67,7 +74,12 @@ export class AuthService {
           localStorage.setItem("STATE","true");
           localStorage.setItem('user',JSON.stringify(res.data));
           this.user.next(res.data);
-          this.router.navigate(['/todo']);
+          if(res.data.roles[0]=="ROLE_ADMIN"){
+            this.router.navigate(['/dashboard']);
+          }
+          else{
+            this.router.navigate(['/todo']);
+          }
 
       }
       else{
@@ -80,6 +92,7 @@ export class AuthService {
   onLogOut(){
     this.user.next({});
     localStorage.clear();
+    this.router.navigate(['/todo'])
   }
   getToken():string{
           // localStorage.setItem("token",res.data.accessToken);

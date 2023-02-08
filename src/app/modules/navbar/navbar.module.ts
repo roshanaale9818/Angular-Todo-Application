@@ -5,6 +5,8 @@ import { NavbarRoutingModule } from './navbar-routing.module';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AlertModule } from 'ngx-bootstrap/alert';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 
@@ -13,14 +15,16 @@ import { AlertModule } from 'ngx-bootstrap/alert';
     NavbarComponent
   ],
   imports: [
-  CommonModule,
+    CommonModule,
     NavbarRoutingModule,
     FontAwesomeModule,
-    AlertModule.forRoot()
+    AlertModule.forRoot(),
+    ModalModule.forRoot(),
+    SharedModule
 
 
   ],
-  exports:[
+  exports: [
     NavbarComponent
   ]
 })

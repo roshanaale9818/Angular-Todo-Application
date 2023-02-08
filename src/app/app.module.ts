@@ -11,6 +11,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { TokenInterceptor } from './config/interceptor/token.interceptor';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 @NgModule({
   declarations: [
     AppComponent
@@ -25,7 +26,8 @@ import { TokenInterceptor } from './config/interceptor/token.interceptor';
     FontAwesomeModule, // font awesomw module added
     ToastrModule.forRoot(), // ToastrModule added
     HttpClientModule,
-    AlertModule.forRoot()
+    AlertModule.forRoot(),
+    TooltipModule.forRoot()
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },

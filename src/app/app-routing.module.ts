@@ -13,7 +13,7 @@ const routes: Routes = [
   },
   {
     path:"dashboard",
-    // canActivate:[AuthGuard],
+    canActivate:[AuthGuard],
     loadChildren:()=>import('./modules/dashboard/dashboard.module').then(m=>m.DashboardModule),
     data:{
       role:"ROLE_ADMIN"

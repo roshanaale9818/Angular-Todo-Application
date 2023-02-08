@@ -5,4 +5,5 @@ export interface Todo{
   isLoading?:boolean;
   originText:string;
   userId?:string;
+  id?:string;
 }
