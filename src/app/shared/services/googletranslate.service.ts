@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { envrionment } from 'src/environments/environment';
 import { GoogleObj } from '../modal/GoogleObj.interface';
 import { Language } from '../modal/Language.interface';
 
@@ -9,7 +10,7 @@ import { Language } from '../modal/Language.interface';
 export class GoogletranslateService {
   url = 'https://translation.googleapis.com/language/translate/v2?key=';
   constructor(private http:HttpClient) { }
-  key:string ='AIzaSyBpspuwMpJpAIrvVcD-UMh389JHELgqjBI'
+  key:string=envrionment.googleKey;
   translate(obj: GoogleObj) {
     return this.http.post(this.url + this.key, obj);
     }

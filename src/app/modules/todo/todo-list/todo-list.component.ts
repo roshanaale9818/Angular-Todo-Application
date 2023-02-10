@@ -19,7 +19,9 @@ import { AuthService } from 'src/app/shared/services/auth/auth.service';
   providers: [{ provide: BsDropdownConfig, useValue: { isAnimated: true, autoClose: true } }]
 })
 export class TodoListComponent {
+  //getting todo from parent component
   @Input() todosList: Todo[] = [];
+  // todo from parent component
   @Input() todo: Todo = {
     name: '',
     originText: '',
@@ -28,7 +30,7 @@ export class TodoListComponent {
     userId: '',
     status: "",
   };
-  //popup configs
+  //popup configs bootstraps
   modalRef: BsModalRef = new BsModalRef();
   config = {
     backdrop: true,
@@ -48,6 +50,7 @@ export class TodoListComponent {
       this.reset();
     })
   }
+  // resetting list
   reset() {
     this.todosList = [];
   }
@@ -83,12 +86,14 @@ export class TodoListComponent {
     });
 
   }
+  // getting all tasks of current logged in user
   getTasks() {
     this.todoService.getTask({ userId: String(this.user$.id) }).subscribe((res: any) => {
-      console.log("Tasks list", res);
       this.todosList = res.data;
     })
   }
+
+  // logged in status
   isLoggedIn() {
     if (this.user$ && this.user$.id) {
       return true;
@@ -97,6 +102,9 @@ export class TodoListComponent {
       return false;
     }
   }
+
+
+  // on complete change status to close
   onCompleteTask(todo: Todo) {
     //changing status for now
     if (!this.isLoggedIn) {
@@ -120,6 +128,7 @@ export class TodoListComponent {
   })
     }
   }
+  // deleting the task
   onDeleteTask(todo: Todo) {
     // console.log("Deleting",todo)
     this.modalRef = this.modelService.show(
@@ -162,10 +171,24 @@ export class TodoListComponent {
     //delaying for showing spinner for a while using pipe method
     this.google.translate(googleObj).pipe(delay(2000)).subscribe(
       (res: any) => {
-        item.isLoading = false;
-        // console.log("RES",res);
-        item.name = res.data.translations[0].translatedText;
-        this.toaster.success(`Translated to ${targetName}`)
+        //also save it in our database
+        this.todoService.onCreateTranslation({
+          userId:this.user$.id, //logged in user,
+          translatedTo:targetCode,
+          translatedText:item.originText
+        }).subscribe((data:any)=>{
+          if(data.status=="ok"){
+            item.isLoading = false;
+            item.name = res.data.translations[0].translatedText;
+            this.toaster.success(`Translated to ${targetName}`);
+          }
+          else{
+            console.error("couldn't save in our system");
+            this.toaster.error(data.message)
+          }
+        })
+
+
       },
     );
   }

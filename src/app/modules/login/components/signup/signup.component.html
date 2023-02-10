@@ -8,27 +8,36 @@
         <div class="card shadow-lg">
           <div class="card-body p-5">
             <h1 class="fs-4 card-title fw-bold mb-4">Register</h1>
-            <form method="POST" class="needs-validation" novalidate="" autocomplete="off">
+            <form  [formGroup]="signUpForm" class="needs-validation" novalidate="" autocomplete="off">
               <div class="mb-3">
                 <label class="mb-2 text-muted" for="name">Username</label>
-                <input id="name" type="text" class="form-control" name="name" value="" required autofocus>
-                <div class="invalid-feedback">
+                <input id="name" type="text" formControlName="username" class="form-control" name="name" value="" required >
+                <div class="invalid-feedback"  *ngIf="(signUpForm.controls?.['username']?.invalid &&
+                signUpForm.controls?.['username']?.touched) ||
+              (signUpForm.controls?.['username']?.invalid &&
+                submitted) ">
                   Username is required
                 </div>
               </div>
 
               <div class="mb-3">
                 <label class="mb-2 text-muted" for="email">E-Mail Address</label>
-                <input id="email" type="email" class="form-control" name="email" value="" required>
-                <div class="invalid-feedback">
-                  Email is invalid
+                <input id="email" type="email" formControlName="email" class="form-control" name="email" value="" required>
+                <div class="invalid-feedback"  *ngIf="(signUpForm.controls?.['email']?.invalid &&
+                signUpForm.controls?.['email']?.touched) ||
+              (signUpForm.controls?.['email']?.invalid &&
+                submitted) ">
+                  Email is required
                 </div>
               </div>
 
               <div class="mb-3">
                 <label class="mb-2 text-muted" for="password">Password</label>
-                <input id="password" type="password" class="form-control" name="password" required>
-                  <div class="invalid-feedback">
+                <input id="password" type="password" formControlName="password" class="form-control" name="password" required>
+                  <div class="invalid-feedback"  *ngIf="(signUpForm.controls?.['password']?.invalid &&
+                  signUpForm.controls?.['password']?.touched) ||
+                (signUpForm.controls?.['password']?.invalid &&
+                  submitted) ">
                     Password is required
                   </div>
               </div>
@@ -37,10 +46,14 @@
 
               <div class="mb-3">
                 <label class="mb-2 text-muted" for="password">Confirm Password</label>
-                <input id="password" type="password" class="form-control" name="password" required>
-                  <div class="invalid-feedback">
-                    Password is required
+                <input id="password" type="password" formControlName="verify_password" class="form-control" name="password" required>
+                  <div class="invalid-feedback" *ngIf="(signUpForm.controls?.['verify_password']?.invalid &&
+                        signUpForm.controls?.['verify_password']?.touched) ||
+                      (signUpForm.controls?.['verify_password']?.invalid &&
+                        submitted) ">
+                    Confirm Password is required
                   </div>
+                  <span *ngIf="this.signUpForm.get('verify_password')?.errors?.['confirmedValidator']" style="color: red;;margin-top:20px">Password do not match.</span>
               </div>
 
               <p class="form-text text-muted mb-3">
@@ -48,7 +61,7 @@
               </p>
 
               <div class="align-items-center d-flex">
-                <button type="submit" class="btn btn-primary ms-auto">
+                <button type="submit" class="btn btn-primary ms-auto" (click)="onSignUpSubmit()">
                   Register
                 </button>
               </div>

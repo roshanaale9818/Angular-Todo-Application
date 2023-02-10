@@ -2,14 +2,16 @@
 <div class="list-wrap">
   <ul class="todo-list">
     <li *ngFor="let item of todosList" class="items" [ngClass]="item.status=='close'? 'close':'open'">{{item.name}}
-      <!-- spinner if item isLoading  -->
+      <!-- spinner  -->
       <mat-spinner *ngIf="item.isLoading" [diameter]="29"></mat-spinner>
 
 
       <!-- action button wrapper  -->
       <div class="action-wrap">
+        <!-- // hide if it is complete i.e status is equal to close  -->
       <button *ngIf="item.status !=='close'" type="button" class="btn btn-success" tooltip="Completed" (click)="onCompleteTask(item)"><fa-icon [icon]="_faCheck"></fa-icon></button>
       <button type="button" class="btn btn-danger ml-1" (click)="onDeleteTask(item)"><fa-icon [icon]="_faTrash"></fa-icon></button>
+     <!-- only available to logged in users  -->
       <ng-container *ngIf="isLoggedIn">
         <div class="btn-group ml-1" dropdown>
           <button id="button-basic" dropdownToggle type="button" class="btn btn-info dropdown-toggle"

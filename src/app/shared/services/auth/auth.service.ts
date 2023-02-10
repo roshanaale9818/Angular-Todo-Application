@@ -4,6 +4,7 @@ import { envrionment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { SignUp } from '../../modal/signup.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,8 @@ export class AuthService {
 
   }
 
+
+  // returns userData value from user observable
   public get currentUserData(): any {
     return this.user.value;
   }
@@ -51,10 +54,9 @@ export class AuthService {
     }
   }
 
+    // returns user role
   getRole() {
-    // this.roleAs = localStorage.getItem('ROLE');
     const role = JSON.parse(localStorage.getItem('user')||'null')
-    // console.log("ROLE",role)
     return role?role.roles[0]:'ROLE_USER';
   }
 
@@ -65,9 +67,7 @@ export class AuthService {
       password:_password
     }
      this.http.post(`${this.apiUrl}/auth/signin`,body).subscribe((res: any) => {
-      console.log("this is res here",res);
       if(res.status=="ok"){
-        // this.user.next(res.data);
           this.toaster.success("Logged in successfull.");
           localStorage.setItem("token",res.data.accessToken);
           localStorage.setItem("role",res.data.roles[0]);
@@ -95,8 +95,13 @@ export class AuthService {
     this.router.navigate(['/todo'])
   }
   getToken():string{
-          // localStorage.setItem("token",res.data.accessToken);
           let token = localStorage.getItem('token') || '';
           return token
+  }
+
+
+  // signup
+  signUp(signUpObj:SignUp):Observable<any>{
+    return this.http.post(`${this.apiUrl}/auth/signup`,signUpObj);
   }
 }

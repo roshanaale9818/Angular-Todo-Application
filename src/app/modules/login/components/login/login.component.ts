@@ -28,10 +28,12 @@ export class LoginComponent {
     password:new FormControl('')
   });
   onSignup() {
+    // navigate to register componenet
     this.router.navigate(['/login/register']);
   }
 
   onLogin() {
+    // return if form is invalid
     if(this.userForm.invalid){
       return;
     }

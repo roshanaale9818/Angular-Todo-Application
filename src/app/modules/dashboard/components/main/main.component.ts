@@ -32,7 +32,6 @@ selectedUser:User={createdAt:"",id:"",email:"",username:""}
 onViewHistory(template:TemplateRef<any>,user:User){
 this.selectedUser = user;
   this.adminService.getTranslationHistory(user.id).subscribe((res:any)=>{
-    console.log("history", res);
     if(res.status=='ok'){
       this.translationList = res.data;
     }
