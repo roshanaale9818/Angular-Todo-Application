@@ -28,17 +28,19 @@ export class AuthGuard implements CanActivate {
 
 
   checkUserLogin(route: ActivatedRouteSnapshot, url: any): boolean {
+    // if user is logged in
     if (this.authService.isLoggedIn()) {
       const userRole = this.authService.getRole();
-      console.log("route",route['data'],userRole)
-      console.log(route.data['role'] && route.data['role'].indexOf(userRole))
+      // if user role doesn't match route to default and prevent access
       if (route.data['role'] && route.data['role'].indexOf(userRole) === -1) {
         this.router.navigate(['/todo']);
         this.toasterService.error("You are not authorized to access resource.");
         return false;
       }
+      // if matches return true and allow
       return true;
     }
+    // if user is not logged in
     this.toasterService.error("You are not authorized to access resource.");
     this.router.navigate(['/todo']);
     return false;

@@ -11,55 +11,56 @@ import { SignUp } from './../../../../shared/modal/signup.interface';
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent {
-signUpForm:FormGroup = new FormGroup({
-  username:new FormControl(''),
-  password:new FormControl(''),
-  verify_password:new FormControl(''),
-  email:new FormControl('')
-});
+  signUpForm: FormGroup = new FormGroup({
+    username: new FormControl(''),
+    password: new FormControl(''),
+    verify_password: new FormControl(''),
+    email: new FormControl('')
+  });
 
 
-constructor(private fb:FormBuilder,
-  private toaster:ToastrService,
-  private auth:AuthService){}
+  constructor(private fb: FormBuilder,
+    private toaster: ToastrService,
+    private auth: AuthService) { }
 
 
-ngOnInit(){
-  this.buildSignUpForm();
-}
-buildSignUpForm(){
-  this.signUpForm = this.fb.group({
-    username:['',Validators.required],
-  password:['',Validators.required],
-  verify_password:['',Validators.required],
-  email:['',Validators.required],
-  },
-  //confirm validator is custom validator for checking
-  //pass two params, formControlname
-  {validators:ConfirmValidator("password","verify_password")})
-}
-submitted:boolean =false;
-onSignUpSubmit(){
-  this.submitted = true;
-  if(this.signUpForm.invalid){
-    this.toaster.error("All fields are required");
-    return;
+  ngOnInit() {
+    this.buildSignUpForm();
   }
-  let signUpObj:SignUp = {
-    email:this.signUpForm.get('email')?.value,
-    password:this.signUpForm.get('verify_password')?.value,
-    username:this.signUpForm.get('username')?.value
+  buildSignUpForm() {
+    this.signUpForm = this.fb.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required],
+      verify_password: ['', Validators.required],
+      email: ['', Validators.required],
+    },
+      //confirm validator is custom validator for checking
+      //pass two params, formControlname
+      { validators: ConfirmValidator("password", "verify_password") })
   }
-  this.auth.signUp(signUpObj).subscribe((res:any)=>{
-    console.log("res",res);
-    if(res['status']=="ok"){
-      this.toaster.success(res.message);
-      //restting the form again
-      this.submitted=false;
-      this.buildSignUpForm();
+  submitted: boolean = false;
+  onSignUpSubmit() {
+    this.submitted = true;
+    if (this.signUpForm.invalid) {
+      this.toaster.error("All fields are required");
+      return;
     }
-    else{
-      this.toaster.error(res.message)    }
-  })
-}
+    let signUpObj: SignUp = {
+      email: this.signUpForm.get('email')?.value,
+      password: this.signUpForm.get('verify_password')?.value,
+      username: this.signUpForm.get('username')?.value
+    }
+    this.auth.signUp(signUpObj).subscribe((res: any) => {
+
+      if (res['status'] == "ok") {
+        this.toaster.success(res.message);
+        //resetting the form again
+        this.submitted = false;
+        this.buildSignUpForm();
+      }
+      else {
+        this.toaster.error(res.message)
+      }
+    })
+  }
 }

@@ -31,6 +31,7 @@ translationList:Translation[]=[];
 selectedUser:User={createdAt:"",id:"",email:"",username:""}
 onViewHistory(template:TemplateRef<any>,user:User){
 this.selectedUser = user;
+this.translationList = [];
   this.adminService.getTranslationHistory(user.id).subscribe((res:any)=>{
     if(res.status=='ok'){
       this.translationList = res.data;

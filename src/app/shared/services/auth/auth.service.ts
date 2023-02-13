@@ -10,6 +10,7 @@ import { SignUp } from '../../modal/signup.interface';
   providedIn: 'root'
 })
 export class AuthService {
+  // for loggged in state throughout the app
   private user:BehaviorSubject<any> = new BehaviorSubject(
     JSON.parse(localStorage.getItem('user')||'{}')
   );

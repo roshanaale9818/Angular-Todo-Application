@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { GoogleObj } from './shared/modal/GoogleObj.interface';
-import { GoogletranslateService } from './shared/services/googletranslate.service';
 
 @Component({
   selector: 'app-root',
@@ -8,11 +6,7 @@ import { GoogletranslateService } from './shared/services/googletranslate.servic
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  constructor(
-    private google:GoogletranslateService
-  ){
-
-  }
+  constructor(){}
   title = 'To-do-app';
   }
 

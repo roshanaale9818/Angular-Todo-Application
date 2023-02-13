@@ -8,12 +8,14 @@ import { Language } from '../modal/Language.interface';
   providedIn: 'root'
 })
 export class GoogletranslateService {
+  // url is for google cloud translate api
   url = 'https://translation.googleapis.com/language/translate/v2?key=';
   constructor(private http:HttpClient) { }
   key:string=envrionment.googleKey;
   translate(obj: GoogleObj) {
     return this.http.post(this.url + this.key, obj);
     }
+    //static languages array from google language translate language option
 
     public languages:Language[]=[
       {
